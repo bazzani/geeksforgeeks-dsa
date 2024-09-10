@@ -1,6 +1,11 @@
 package bevans.geeksforgeeks.dsa;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,39 +13,37 @@ class SlidingWindowTechniqueTest {
 
     private SlidingWindowTechnique sut;
 
-    @Test
-    void shouldFindSmallestSubArray() {
-        // given
-        int[] input = {1, 4, 45, 6, 0, 19};
-        // when
-        int sum = sut.smallestSubArrayWithSumGreaterThan(input, 51);
-        // then
-        assertEquals(3, sum);
-
-        // given
-        input = new int[]{1, 10, 5, 2, 7};
-        // when
-        sum = sut.smallestSubArrayWithSumGreaterThan(input, 9);
-        // then
-        assertEquals(1, sum);
-
-        // given
-        input = new int[]{1, 11, 100, 1, 0, 200, 3, 2, 1, 250};
-        // when
-        sum = sut.smallestSubArrayWithSumGreaterThan(input, 280);
-        // then
-        assertEquals(4, sum);
-
-        // given
-        input = new int[]{1, 2, 4};
-        // when
-        sum = sut.smallestSubArrayWithSumGreaterThan(input, 8);
-        // then
-        assertEquals(-1, sum);
+    @BeforeEach
+    public void setup() {
+        sut = new SlidingWindowTechnique();
     }
 
-    //Minimum length subarray is {4, 45, 6}
-    //Minimum length subarray is {10}
-    //Minimum length subarray is {100, 1, 0, 200}
-    //Whole array sum is smaller than 8.
+    @ParameterizedTest(name = "Input {0}, k {1}, Expected Max Values {2}")
+    @MethodSource("maximumOfSubArraysSizeK")
+    void shouldFindMaximumOfSubArraysSizeK(int[] input, int k, String expectedMaxValues) {
+        // Given an array and an integer K, find the maximum for each and every contiguous subarray of size K.
+
+        // given
+        // when
+        String maxValues = sut.maximumOfSubArraysSizeK(input, k);
+
+        // then
+        assertEquals(expectedMaxValues, maxValues);
+    }
+
+    public static Stream<Arguments> maximumOfSubArraysSizeK() {
+        //Explanation: Maximum of 1, 2, 3 is 3
+        //             Maximum of 2, 3, 1 is 3
+        //             Maximum of 3, 1, 4 is 4
+        //             Maximum of 1, 4, 5 is 5
+        //Explanation: Maximum of first 4 elements is 10, similarly for next 4
+        //              elements (i.e from index 1 to 4) is 10, So the sequence
+        //              generated is 10 10 10 15 15 90 90
+
+        return Stream.of(Arguments.of(new int[]{1, 2, 3, 1, 4, 5}, 3, "3 3 4 5")
+                , Arguments.of(new int[]{8, 5, 10, 7, 9, 4, 15, 12, 90, 13}, 4, "10 10 10 15 15 90 90")
+                , Arguments.of(new int[]{20, 10, 30}, 1, "20 10 30")
+                , Arguments.of(new int[]{}, 1, "20 10 30")
+        );
+    }
 }
