@@ -18,6 +18,33 @@ class SlidingWindowTechniqueTest {
         sut = new SlidingWindowTechnique();
     }
 
+    @ParameterizedTest(name = "Input {0}, Sum {1}, Expected Indices {2}")
+    @MethodSource("subArrayWithGivenSum")
+    void shouldFindSubArrayWithGivenSum(int[] input, int sum, String expectedIndices) {
+        // Given a 1-based indexing array arr[] of integers and an integer sum.
+        // You mainly need to return the left and right indexes(1-based indexing) of that subarray.
+        // In case of multiple subarrays, return the subarray indexes which come first on moving from left to right.
+        // If no such subarray exists return an array consisting of element -1.
+
+        // given
+        // when
+        String indices = sut.subArrayWithGivenSum(input, sum);
+
+        // then
+        assertEquals(expectedIndices, indices);
+    }
+
+    public static Stream<Arguments> subArrayWithGivenSum() {
+        //Explanation: Sum of elements between indices 2 and 5 is 2 + 4 + 8 + 9 = 23
+        //Explanation: Sum of elements between indices 1 and 4 is 4 + 0 + 0 + 3 = 7
+        //Explanation: There is no subarray with 0 sum
+
+        return Stream.of(Arguments.of(new int[]{15, 2, 4, 8, 9, 5, 10, 23}, 23, "2 5")
+                , Arguments.of(new int[]{1, 4, 0, 0, 3, 10, 5}, 7, "2 5")
+                , Arguments.of(new int[]{1, 4}, 0, "-1")
+        );
+    }
+
     @ParameterizedTest(name = "Input {0}, k {1}, Expected Max Values {2}")
     @MethodSource("maximumOfSubArraysSizeK")
     void shouldFindMaximumOfSubArraysSizeK(int[] input, int k, String expectedMaxValues) {
