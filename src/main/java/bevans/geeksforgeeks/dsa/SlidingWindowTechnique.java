@@ -1,18 +1,27 @@
 package bevans.geeksforgeeks.dsa;
 
-import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 
 public class SlidingWindowTechnique {
     public String maximumOfSubArraysSizeK(int[] input, int k) {
-        var maxValues = new StringJoiner(" ");
-        int lastStartIndex = input.length - k + 1;
+        if (input.length < k) {
+            return null;
+        }
 
+        var maxValues = new StringJoiner(" ");
+        var windowedInts = new TreeSet<Integer>();
+
+        for (int i = 0; i < k; i++) {
+            windowedInts.add(input[i]);
+        }
+        maxValues.add(windowedInts.last().toString());
+
+        int lastStartIndex = input.length - k;
         for (int i = 0; i < lastStartIndex; i++) {
-            int[] ints = Arrays.copyOfRange(input, i, i + k);
-            Arrays.sort(ints);
-            var max = ints[ints.length - 1];
-            maxValues.add(String.valueOf(max));
+            windowedInts.remove(input[i]);
+            windowedInts.add(input[i + k]);
+            maxValues.add(windowedInts.last().toString());
         }
 
         return maxValues.toString();
