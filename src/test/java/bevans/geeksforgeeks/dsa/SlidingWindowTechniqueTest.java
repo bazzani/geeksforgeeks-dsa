@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SlidingWindowTechniqueTest {
@@ -19,8 +20,8 @@ class SlidingWindowTechniqueTest {
     }
 
     @ParameterizedTest(name = "Input {0}, Sum {1}, Expected Indices {2}")
-    @MethodSource("subArrayWithGivenSum")
-    void shouldFindSubArrayWithGivenSum(int[] input, int sum, String expectedIndices) {
+    @MethodSource("subArrayWithGivenSumData")
+    void shouldFindSubArrayWithGivenSum(int[] input, int sum, int[] expectedIndices) {
         // Given a 1-based indexing array arr[] of integers and an integer sum.
         // You mainly need to return the left and right indexes(1-based indexing) of that subarray.
         // In case of multiple subarrays, return the subarray indexes which come first on moving from left to right.
@@ -28,21 +29,22 @@ class SlidingWindowTechniqueTest {
 
         // given
         // when
-        String indices = sut.subArrayWithGivenSum(input, sum);
+        var indices = sut.subArrayWithGivenSum(input, sum);
 
         // then
-        assertEquals(expectedIndices, indices);
+        var indicesIntArray = indices.stream().mapToInt(Integer::intValue).toArray();
+        assertArrayEquals(expectedIndices, indicesIntArray);
     }
 
-    public static Stream<Arguments> subArrayWithGivenSum() {
+    public static Stream<Arguments> subArrayWithGivenSumData() {
         //Explanation: Sum of elements between indices 2 and 5 is 2 + 4 + 8 + 9 = 23
         //Explanation: Sum of elements between indices 1 and 4 is 4 + 0 + 0 + 3 = 7
         //Explanation: There is no subarray with 0 sum
 
-        return Stream.of(Arguments.of(new int[]{15, 2, 4, 8, 9, 5, 10, 23}, 23, "2 5")
-                , Arguments.of(new int[]{1, 4, 0, 0, 3, 10, 5}, 7, "2 5")
-                , Arguments.of(new int[]{1, 4}, 0, "-1")
-                , Arguments.of(new int[]{7, 2, 1}, 2, "2 2")
+        return Stream.of(Arguments.of(new int[]{15, 2, 4, 8, 9, 5, 10, 23}, 23, new int[]{2, 5})
+                , Arguments.of(new int[]{1, 4, 0, 0, 3, 10, 5}, 7, new int[]{2, 5})
+                , Arguments.of(new int[]{1, 4}, 0, new int[]{-1})
+                , Arguments.of(new int[]{7, 2, 1}, 2, new int[]{2, 2})
         );
     }
 

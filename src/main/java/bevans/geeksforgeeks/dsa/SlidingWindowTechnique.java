@@ -1,38 +1,43 @@
 package bevans.geeksforgeeks.dsa;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
 import java.util.TreeSet;
 
 public class SlidingWindowTechnique {
-    public String subArrayWithGivenSum(int[] input, int sum) {
-        var sumIndices = new StringJoiner(" ");
-        sumIndices.setEmptyValue("-1");
+    public List<Integer> subArrayWithGivenSum(int[] arr, int sum) {
+        var currentSum = 0;
+        var start = 0;
+        var end = 0;
+        var flag = false;
+        var sumIndices = new ArrayList<Integer>();
 
-        int last = input.length;
-        int start = 0;
-        var currentSum = input[start];
+        for (int i = 0; i < arr.length; i++) {
+            currentSum += arr[i];
 
-        for (int end = 1; end <= last; end++) {
-            while (currentSum > sum && start < end - 1) {
-                currentSum -= input[start++];
-            }
+            if (currentSum >= sum) {
+                end = i;
 
-            if (currentSum == sum) {
-                sumIndices.add(getStringValue(start + 1));
-                sumIndices.add(getStringValue(end));
-                return sumIndices.toString();
-            }
+                while (currentSum > sum && start < end) {
+                    currentSum -= arr[start];
+                    ++start;
+                }
 
-            if (end < last) {
-                currentSum += input[end];
+                if (currentSum == sum) {
+                    sumIndices.add(start + 1);
+                    sumIndices.add(end + 1);
+                    flag = true;
+                    break;
+                }
             }
         }
 
-        return sumIndices.toString();
-    }
+        if (!flag) {
+            sumIndices.add(-1);
+        }
 
-    private String getStringValue(int intValue) {
-        return String.valueOf(intValue);
+        return sumIndices;
     }
 
     public String maximumOfSubArraysSizeK(int[] input, int k) {
