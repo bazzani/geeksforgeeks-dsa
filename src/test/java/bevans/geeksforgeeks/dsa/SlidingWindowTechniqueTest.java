@@ -42,6 +42,7 @@ class SlidingWindowTechniqueTest {
         return Stream.of(Arguments.of(new int[]{15, 2, 4, 8, 9, 5, 10, 23}, 23, "2 5")
                 , Arguments.of(new int[]{1, 4, 0, 0, 3, 10, 5}, 7, "2 5")
                 , Arguments.of(new int[]{1, 4}, 0, "-1")
+                , Arguments.of(new int[]{7, 2, 1}, 2, "2 2")
         );
     }
 

@@ -8,27 +8,31 @@ public class SlidingWindowTechnique {
         var sumIndices = new StringJoiner(" ");
         sumIndices.setEmptyValue("-1");
 
-        int leftIndex = 0;
-        int rightIndex = 0;
-        var currentSum = input[leftIndex];
+        int last = input.length;
+        int start = 0;
+        var currentSum = input[start];
 
-        while (rightIndex < input.length) {
-            if (currentSum < sum) {
-                rightIndex++;
-                currentSum += input[rightIndex];
-            } else if (currentSum > sum) {
-                currentSum -= input[leftIndex];
-                leftIndex++;
+        for (int end = 1; end <= last; end++) {
+            while (currentSum > sum && start < end - 1) {
+                currentSum -= input[start++];
             }
 
             if (currentSum == sum) {
-                sumIndices.add(String.valueOf(leftIndex + 1));
-                sumIndices.add(String.valueOf(rightIndex + 1));
-                break;
+                sumIndices.add(getStringValue(start + 1));
+                sumIndices.add(getStringValue(end));
+                return sumIndices.toString();
+            }
+
+            if (end < last) {
+                currentSum += input[end];
             }
         }
 
         return sumIndices.toString();
+    }
+
+    private String getStringValue(int intValue) {
+        return String.valueOf(intValue);
     }
 
     public String maximumOfSubArraysSizeK(int[] input, int k) {
