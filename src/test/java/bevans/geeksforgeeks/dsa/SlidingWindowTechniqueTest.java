@@ -49,7 +49,7 @@ class SlidingWindowTechniqueTest {
     }
 
     @ParameterizedTest(name = "Input {0}, k {1}, Expected Max Values {2}")
-    @MethodSource("maximumOfSubArraysSizeK")
+    @MethodSource("maximumOfSubArraysSizeKData")
     void shouldFindMaximumOfSubArraysSizeK(int[] input, int k, int[] expectedMaxValues) {
         // Given an array and an integer K, find the maximum for each and every contiguous subarray of size K.
 
@@ -66,7 +66,25 @@ class SlidingWindowTechniqueTest {
         }
     }
 
-    public static Stream<Arguments> maximumOfSubArraysSizeK() {
+    @ParameterizedTest(name = "Input {0}, k {1}, Expected Max Values {2}")
+    @MethodSource("maximumOfSubArraysSizeKData")
+    void shouldFindMaximumOfSubArraysSizeKMaxHeap(int[] input, int k, int[] expectedMaxValues) {
+        // Given an array and an integer K, find the maximum for each and every contiguous subarray of size K.
+
+        // given
+        // when
+        var maxValues = sut.maximumOfSubArraysSizeKMaxHeap(input, k);
+
+        // then
+        if (expectedMaxValues == null) {
+            assertNull(maxValues);
+        } else {
+            var maxValuesIntArray = maxValues.stream().mapToInt(Integer::intValue).toArray();
+            assertArrayEquals(expectedMaxValues, maxValuesIntArray);
+        }
+    }
+
+    public static Stream<Arguments> maximumOfSubArraysSizeKData() {
         //Explanation: Maximum of 1, 2, 3 is 3
         //             Maximum of 2, 3, 1 is 3
         //             Maximum of 3, 1, 4 is 4
