@@ -29,7 +29,7 @@ class SlidingWindowTechniqueTest {
 
         // given
         // when
-        var indices = sut.subArrayWithGivenSum(input, sum);
+        var indices = sut.subArrayWithGivenSumTreeSet(input, sum);
 
         // then
         var indicesIntArray = indices.stream().mapToInt(Integer::intValue).toArray();

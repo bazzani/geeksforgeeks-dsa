@@ -6,7 +6,7 @@ import java.util.StringJoiner;
 import java.util.TreeSet;
 
 public class SlidingWindowTechnique {
-    public List<Integer> subArrayWithGivenSum(int[] arr, int sum) {
+    public List<Integer> subArrayWithGivenSumTreeSet(int[] arr, int sum) {
         var currentSum = 0;
         var start = 0;
         var end = 0;
