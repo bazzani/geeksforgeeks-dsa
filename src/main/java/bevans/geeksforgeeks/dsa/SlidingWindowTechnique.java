@@ -2,7 +2,6 @@ package bevans.geeksforgeeks.dsa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.TreeSet;
 
 public class SlidingWindowTechnique {
@@ -40,26 +39,26 @@ public class SlidingWindowTechnique {
         return sumIndices;
     }
 
-    public String maximumOfSubArraysSizeK(int[] input, int k) {
+    public List<Integer> maximumOfSubArraysSizeK(int[] input, int k) {
         if (input.length < k) {
             return null;
         }
 
-        var maxValues = new StringJoiner(" ");
+        var maxValues = new ArrayList<Integer>();
         var windowedInts = new TreeSet<Integer>();
 
         for (int i = 0; i < k; i++) {
             windowedInts.add(input[i]);
         }
-        maxValues.add(windowedInts.last().toString());
+        maxValues.add(windowedInts.last());
 
         int lastStartIndex = input.length - k;
         for (int i = 0; i < lastStartIndex; i++) {
             windowedInts.remove(input[i]);
             windowedInts.add(input[i + k]);
-            maxValues.add(windowedInts.last().toString());
+            maxValues.add(windowedInts.last());
         }
 
-        return maxValues.toString();
+        return maxValues;
     }
 }
